@@ -17,7 +17,7 @@
         }
 
         .box1 {
-            margin: 200px;
+            margin: 100px;
             text-align: center;
             align-items: center;
             padding: 100px;
@@ -40,17 +40,40 @@
         #head{
             color:orangered;
         }
+        #submit{
+            padding: 7px;
+            border-radius: 10px;
+        }
+        #textarea{
+            padding: 7px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        @media  screen and (max-width:550px) {
+            .box1 {
+            margin: 0px;
+            text-align: center;
+            align-items: center;
+            padding: 100px;
+            border: 2px solid orangered;
+            background-color: black;
+            color: white;
+        }
+        }
     </style>
 </head>
 
 <body>
-    <!-- <header><h1>Wether Report</h1></header> -->
+ 
     <div class="box1">
     
-        <!-- <div id="weathercond">
-            <i class="fas fa-sun" style="color:#eccc68"></i>
-        </div> -->
+        
         <div class="info">
+            <div class="text">
+                <h3 id="texthead">Enter the city Name</h3>
+                <input id="textarea"type="text">
+                <button id="submit">submit</button>
+            </div>
             <div class="box"><h2 id="head">Weather Report</h2></div>
             <div class="box">
                 <class class="heading">Location:</class>
@@ -83,24 +106,30 @@
         const weatherdes = document.getElementById('weatherdes');
         const weatherinfo= document.getElementById('weatherinfo');
         const tempMinMax = document.getElementById('tempMinMax');
-
-        let today = new Date();
+        const textarea = document.getElementById('textarea');
+        const submit = document.getElementById('submit');
+        let citysearch;
+        let flag=1;
+        submit.addEventListener('click',()=>{
+           citysearch=textarea.value;
+           console.log(citysearch);
+           let today = new Date();
         console.log(today);
         date.innerText=`${today}`;
 
         function getData(){
-            url="https://api.openweathermap.org/data/2.5/weather?q=mumbai&appid=e126389359d6fc71961f2bb29a37b7ef";
+            url=`https://api.openweathermap.org/data/2.5/weather?q=${citysearch}&appid=e126389359d6fc71961f2bb29a37b7ef`;
             // url="test.txt";
             fetch(url)
             .then((response)=>{
                 return response.json();
             })
             .then((data)=>{
-                console.log(data.weather[1].main);
+                console.log(data.weather[0].main);
                 console.log(data.name);
-                console.log(data.weather[1].description);
-                weather_=data.weather[1].main;
-                weather_des=data.weather[1].description;
+                console.log(data.weather[0].description);
+                weather_=data.weather[0].main;
+                weather_des=data.weather[0].description;
                 temp_=((data.main.temp)-273).toFixed(2);
                 loca=data.name;
                 loc.innerText=loca;
@@ -111,6 +140,9 @@
         }
         
         getData();
+        })
+        // console.log(citysearch);
+        
     </script>
 </body>
 
